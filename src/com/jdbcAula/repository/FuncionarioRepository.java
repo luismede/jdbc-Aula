@@ -11,37 +11,51 @@ public class FuncionarioRepository {
         this.connection = connectionFactory.getConnection();
     }
 
-    public void inserir() throws SQLException {
-        connectionFactory.getConnection();
+    public void inserirFuncionario(String name, String job, Date date, double salary, int deptno) throws SQLException {
+        connectionFactory.getConnection(); // Iniciando conexão com o Postgree
 
         pstmt = connection.prepareStatement("INSERT INTO EMPLOYEES (ENAME, JOB, HIRE_DATE, SALARY, DEPTNO) VALUES (?, ?, ?, ?, ?)");
         // Setando o valor dos parametros
-        pstmt.setString(1, "Felipe Augusto");
-        pstmt.setString(2,"Desenvolvedor");
-        pstmt.setDate(3, Date.valueOf("2023-02-07"));
-        pstmt.setDouble(4, 7300.00);
-        pstmt.setInt(5, 1);
+        pstmt.setString(1, name);
+        pstmt.setString(2,job);
+        pstmt.setDate(3, Date.valueOf(date.toLocalDate()));
+        pstmt.setDouble(4, salary);
+        pstmt.setInt(5, deptno);
         pstmt.execute();
 
         connectionFactory.closeConnection();
     }
 
-    public void alterar() throws SQLException {
+    public void inserirFuncionario(String name, String job, Date date, int deptno) throws SQLException {
+        connectionFactory.getConnection();
+
+        pstmt = connection.prepareStatement("INSERT INTO EMPLOYEES (ENAME, JOB, HIRE_DATE, DEPTNO) VALUES (?, ?, ?, ?)");
+        // Setando o valor dos parametros
+        pstmt.setString(1, name);
+        pstmt.setString(2,job);
+        pstmt.setDate(3, Date.valueOf(date.toLocalDate()));
+        pstmt.setInt(5, deptno);
+        pstmt.execute();
+
+        connectionFactory.closeConnection();
+    }
+
+    public void alterarDepartamento(int newDept, int emp_id) throws SQLException {
         connectionFactory.getConnection(); // Abrindo a conexão com o Banco de Dados
         pstmt = connection.prepareStatement("UPDATE EMPLOYEES SET DEPTNO = ? WHERE ID = ?");
 
-        pstmt.setInt(1, 1);
-        pstmt.setInt(2, 3);
+        pstmt.setInt(1, newDept);
+        pstmt.setInt(2, emp_id);
         pstmt.execute();
         connectionFactory.closeConnection();
     }
 
 
-    public void remover() throws SQLException {
+    public void removerFuncionario(int emp_id) throws SQLException {
         connectionFactory.getConnection();
         pstmt = connection.prepareStatement("DELETE FROM EMPLOYEES WHERE id = ?");
         // Setando o valor do parametro ?
-        pstmt.setInt(1, 5);
+        pstmt.setInt(1, emp_id);
         pstmt.execute();
         connectionFactory.closeConnection();
     }

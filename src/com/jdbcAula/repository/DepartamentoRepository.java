@@ -14,25 +14,37 @@ public class DepartamentoRepository {
         this.connection = connectionFactory.getConnection();
     }
 
-    public void inserir() throws SQLException {
+    public void inserirDepartamento(String dName, String loc, double budget) throws SQLException {
         connectionFactory.getConnection();
 
         pstmt = connection.prepareStatement("INSERT INTO DEPT (DNAME, LOCALIZATION, BUDGET) VALUES (?, ?, ?)");
         // Setando o valor dos parametros
-        pstmt.setString(1, "Transporte");
-        pstmt.setString(2,"Campinas");
-        pstmt.setDouble(3, 2000000);
+        pstmt.setString(1, dName);
+        pstmt.setString(2,loc);
+        pstmt.setDouble(3, budget);
         pstmt.execute();
 
         connectionFactory.closeConnection();
     }
 
-    public void alterar() throws SQLException {
+    public void inserirDepartamento(String dName, String loc) throws SQLException {
+        connectionFactory.getConnection();
+
+        pstmt = connection.prepareStatement("INSERT INTO DEPT (DNAME, LOCALIZATION) VALUES (?, ?)");
+        // Setando o valor dos parametros
+        pstmt.setString(1, dName);
+        pstmt.setString(2,loc);
+        pstmt.execute();
+
+        connectionFactory.closeConnection();
+    }
+
+    public void alterarDepartamento(String updatedName, int deptno) throws SQLException {
         connectionFactory.getConnection(); // Abrindo a conexão com o Banco de Dados
         pstmt = connection.prepareStatement("UPDATE DEPT SET DNAME = ? WHERE DEPTNO = ?");
 
-        pstmt.setString(1, "Gestão da Qualidade");
-        pstmt.setInt(2, 11);
+        pstmt.setString(1, updatedName);
+        pstmt.setInt(2, deptno);
         pstmt.execute();
         connectionFactory.closeConnection();
     }
@@ -49,7 +61,4 @@ public class DepartamentoRepository {
         return resultSet; // Retorna o result set
     }
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
 }
